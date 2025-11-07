@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SOUL7OS Agent Chat</title>
+<style>
+body { font-family: Arial, sans-serif; background: #0f172a; color: #e2e8f0; display: flex; flex-direction: column; align-items: center; padding: 40px; }
+textarea, input { width: 90%; max-width: 600px; margin: 10px 0; padding: 12px; border-radius: 8px; border: none; outline: none; }
+textarea { height: 100px; resize: none; }
+button { background: #38bdf8; border: none; color: #0f172a; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+button:hover { background: #0ea5e9; }
+#response { margin-top: 20px; white-space: pre-wrap; background: #1e293b; padding: 20px; border-radius: 8px; width: 90%; max-width: 600px; }
+</style>
+</head>
+<body>
+<h2>💫 SOUL7OS Agent</h2>
+<p>Ask anything — your AI agent will respond safely and ethically.</p>
+<textarea id="message" placeholder="Type your message..."></textarea>
+<button onclick="sendMessage()">Send</button>
+<div id="response"></div>
+
+<script>
+async function sendMessage() {
+  const msg = document.getElementById('message').value;
+  const resBox = document.getElementById('response');
+  resBox.textContent = "Thinking...";
+  const resp = await fetch("/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: msg })
+  });
+  const data = await resp.json();
+  resBox.textContent = data.response || "No response.";
+}
+</script>
+</body>
+</html>
