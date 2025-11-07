@@ -1,0 +1,22 @@
+version: "1"
+projects:
+- name: My project
+  environments:
+  - name: Production
+    services:
+    - type: web
+      name: Soul7os-agent2
+      runtime: python
+      repo: https://github.com/glitchinthesystem-seven/Soul7os-agent2
+      plan: starter
+      envVars:
+      - key: OPENAI_API_KEY
+        value: "sk-proj-YOUR_KEY_HERE"  # Paste your actual sk-... from OpenAI
+      - key: ENVIRONMENT
+        value: "production"
+      - key: DATABASE_URL
+        value: "sqlite:///./data/egregore.db"  # From PDF; add Render disk for persistence
+      region: oregon
+      buildCommand: pip install -r requirements.txt
+      startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+      autoDeployTrigger: commit
